@@ -10,11 +10,6 @@ const routes = [
         component:ListComponent
     },
     {
-        name:'list',
-        path:'/list',
-        component:ListComponent
-    },
-    {
         name:'contact',
         path:'/contact',
         component:ContactComponent
