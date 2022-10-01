@@ -16,11 +16,9 @@ const { ipcMain, BrowserWindow } = require('electron')
 // })
 //*** EVENTOS CRUD ELECTRON DB*/
 ipcMain.on('pp-item-create', (event, task) => {
-
     if (task.task.trim() !== '')
         this.item_save(task.task.trim())
     this.item_all()
-
 })
 ipcMain.on('pp-item-edit', (event, indexTask) => {
     if (indexTask.task.trim() !== '')

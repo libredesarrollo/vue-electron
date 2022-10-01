@@ -12,8 +12,11 @@
     "pro:macos": "electron-builder --macos"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "core-js": "^3.8.3",
+    "cors": "^2.8.5",
     "electron-db": "^0.15.7",
+    "express": "^4.18.1",
     "vue": "^3.2.13",
     "vue-router": "^4.1.5"
   },
