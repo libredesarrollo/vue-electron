@@ -3,18 +3,25 @@ const express = require('express')
 const db = require('electron-db')
 const cors = require('cors')
 
+const dbMySQL = require('./db-mysql')
+
 let app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
-
-//CONF
 app.use(cors())
 
-app.get('/task',function(req,res){
-    db.getAll('todos', (succ, items) => {
+const corsOptions = {
+    origin: 'http://localhost:8080' // http://example.com
+}
+
+app.get('/task',cors(corsOptions),function(req,res){
+    dbMySQL.getTasks((items)=>{
         res.json(items)
     })
+    // db.getAll('todos', (succ, items) => {
+    //     res.json(items)
+    // })
 })
 
 app.post('/task',function(req,res){
@@ -25,12 +32,16 @@ app.post('/task',function(req,res){
     let item = new Object()
     item.name = req.body.task
 
-    db.insertTableContent('todos', item, (succ, msg) => {
-        console.log(succ)
-        console.log(msg)
+    dbMySQL.insertTask(item,(data)=>{
+        res.json(data)
     })
 
-    res.json('ok')
+    // db.insertTableContent('todos', item, (succ, msg) => {
+    //     console.log(succ)
+    //     console.log(msg)
+    // })
+
+    // res.json('ok')
     
 })
 app.put('/task/:id/',function(req,res){
@@ -40,27 +51,38 @@ app.put('/task/:id/',function(req,res){
     console.log(req.params.id)
 
 
-    const where = {
-        "id": parseInt(req.params.id)
-    }
+ 
 
     let item = new Object()
     item.name = req.body.task
 
-    db.updateRow('todos', where, item, (succ, msg) => {
-        console.log(succ)
-        console.log(msg)
+    dbMySQL.updateTask(req.params.id, item, (data)=>{
+        res.json(data)
     })
+
+
+    // const where = {
+    //     "id": parseInt(req.params.id)
+    // }
+    // db.updateRow('todos', where, item, (succ, msg) => {
+    //     console.log(succ)
+    //     console.log(msg)
+    // })
     
-    res.json('ok')
+    // res.json('ok')
 })
 
 app.delete('/task/:id/',function(req,res){
-    db.deleteRow('todos', { 'id':parseInt(req.params.id) }, (succ, msg) => {
-        console.log(succ)
-        console.log(msg)
+
+    dbMySQL.deleteTask(req.params.id, (data)=>{
+        res.json(data)
     })
-    res.json('ok')
+
+    // db.deleteRow('todos', { 'id':parseInt(req.params.id) }, (succ, msg) => {
+    //     console.log(succ)
+    //     console.log(msg)
+    // })
+    // res.json('ok')
 
 })
 
