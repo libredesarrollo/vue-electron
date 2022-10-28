@@ -4,6 +4,7 @@ const db = require('electron-db')
 const cors = require('cors')
 
 const dbMySQL = require('./db-mysql')
+const tokenAuth = require('./tokenAuth')
 
 let app = express()
 
@@ -14,6 +15,8 @@ app.use(cors())
 const corsOptions = {
     origin: 'http://localhost:8080' // http://example.com
 }
+
+//******* TASK */
 
 app.get('/task',cors(corsOptions),function(req,res){
     dbMySQL.getTasks((items)=>{
@@ -84,6 +87,35 @@ app.delete('/task/:id/',function(req,res){
     // })
     // res.json('ok')
 
+})
+
+//******* USER */
+
+app.post('/user/register',function(req,res){
+    
+    let user = new Object()
+    user.name = req.body.name
+    user.username = req.body.username
+    user.password = req.body.password
+
+    dbMySQL.insertUser(user,(data)=>{
+        res.json(data)
+    })
+    
+})
+app.post('/user/login',function(req,res){
+
+    dbMySQL.userLogin(req.body.username,req.body.password,(data)=>{
+
+        if(data.token){
+            tokenAuth.setAuth(data.token)
+        }else{
+            tokenAuth.setAuth('')
+        }
+
+        res.json(data)
+    })
+    
 })
 
 app.listen(3000, function(){
