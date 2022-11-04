@@ -1,13 +1,30 @@
 <template>
-  <div>
-    <h3>Register</h3>
-    <form @submit.prevent="save">
-      <input type="text" v-model="user.name" />
-      <input type="text" v-model="user.username" />
-      <input type="password" v-model="user.password" />
-      <button type="submit">Send</button>
-    </form>
-  </div>
+  <form @submit.prevent="save">
+    <div class="card">
+      <div class="card-header">
+        <h3>Register</h3>
+      </div>
+      <div class="card-body">
+        
+        <div class="mb-2">
+          <label for="name">Name</label>
+          <input class="form-control" type="text" v-model="user.name" id="name"/>
+        </div>
+
+        <div class="mb-2">
+          <label for="username">Username</label>
+          <input id="username" class="form-control" type="text" v-model="user.username" />
+        </div>
+        <div class="mb-2">
+          <label for="password">Password</label>
+          <input id="password" class="form-control" type="password" v-model="user.password" />
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Send</button>
+      </div>
+    </div>
+  </form>
 </template>
 
 <script>
@@ -25,12 +42,12 @@ export default {
   methods: {
     save() {
       console.log("Register");
-      axios.post("http://localhost:3000/user/register", this.user).then(()=>{ 
-        alert('User created success')
+      axios.post("http://localhost:3000/user/register", this.user).then(() => {
+        alert("User created success");
         // this.$router.push({ name: 'user-login' })
-        const { ipcRenderer } = window.require('electron')
-        ipcRenderer.send('pp-close-win-register')
-       });
+        const { ipcRenderer } = window.require("electron");
+        ipcRenderer.send("pp-close-win-register");
+      });
     },
   },
 };

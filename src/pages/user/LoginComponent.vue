@@ -1,15 +1,34 @@
 <template>
-  <div>
-    <h3>Login</h3>
-
-    <p>*** {{ $root.auth }} ***</p>
-
-    <form @submit.prevent="save">
-      <input type="text" v-model="user.username" />
-      <input type="password" v-model="user.password" />
-      <button type="submit">Send</button>
-    </form>
-  </div>
+  <form @submit.prevent="save">
+    <div class="card">
+      <div class="card-header">
+        <h3>Login</h3>
+      </div>
+      <div class="card-body">
+        <div class="mb-2">
+          <label for="username">Username</label>
+          <input
+            id="username"
+            class="form-control"
+            type="text"
+            v-model="user.username"
+          />
+        </div>
+        <div class="mb-2">
+          <label for="password">Password</label>
+          <input
+            id="password"
+            class="form-control"
+            type="password"
+            v-model="user.password"
+          />
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-primary" type="submit">Send</button>
+      </div>
+    </div>
+  </form>
 </template>
 
 <script>

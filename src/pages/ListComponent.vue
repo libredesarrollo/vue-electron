@@ -1,15 +1,28 @@
 <template>
   <div>
     <h1>List</h1>
-    <div v-for="(item, index) in items" :key="index">
-      <p>{{ item.name }} - {{ item.id }}</p>
-      <button @click="remove(item.id)">Remove</button>
-      <button @click="edit(index)">Edit</button>
-    </div>
+
+    <ul class="list-group">
+      <li v-for="(item, index) in items" :key="index" class="list-group-item">
+        <span class="me-2">{{ item.name }} - {{ item.id }}</span>
+        <button class="btn btn-danger btn-sm me-2" @click="remove(item.id)">
+          Remove
+        </button>
+        <button class="btn btn-primary btn-sm" @click="edit(index)">
+          Edit
+        </button>
+      </li>
+    </ul>
 
     <form @submit.prevent="save">
-      <input type="text" v-model="task" />
-      <button type="submit">Save</button>
+      <div class="row g-2 mt-2">
+        <div class="col-auto">
+          <input type="text" v-model="task" class="form-control" />
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-success">Save</button>
+        </div>
+      </div>
     </form>
   </div>
 </template>
