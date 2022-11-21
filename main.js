@@ -6,6 +6,16 @@ const auth = require('./auth')
 const tokenAuth = require('./rest/tokenAuth')
 const dbMysql = require('./rest/db-mysql')
 
+// try {
+//     require('electron-reloader')(module);
+//     // require('electron-reloader')(module,{
+//     //     debug:true,
+//     //     watchRenderer:true
+//     // });
+// } catch (error) {
+
+// }
+
 function createWindow() {
     let win = new BrowserWindow({
         width: 1300,
@@ -17,11 +27,16 @@ function createWindow() {
     })
 
     // win.webContents.loadURL('https://www.google.com/')
-    if (process.env.DEBUG)
+    if (process.env.DEBUG) {
         // win.webContents.loadURL(`file://${__dirname}/vue/index.html`)
         win.webContents.loadURL('http://localhost:8080/')
-    else
-        win.webContents.loadURL(`file:///Users/andrescruz/Desktop/proyects/electron/curso/vueelectron/vue/index.html`)
+        //win.webContents.loadURL(`file://${__dirname}/vue2/index.html`)
+        //console.log(`file://${__dirname}/vue/index.html`)
+    } else {
+        // win.webContents.loadURL('http://example.com/vue')
+        //win.webContents.loadURL(`file:///Users/andrescruz/Desktop/proyects/electron/curso/vueelectron/vue/index.html`)
+        win.webContents.loadURL(`file://${__dirname}/vue/index.html`)
+    }
     // win.webContents.loadURL('https://www.google.com/')
 
     auth.winRegister(win.id)
@@ -36,8 +51,7 @@ function createWindow() {
     //     win.webContents.send('pr-get-token',tokenAuth.getAuth())
     // })
 
-    ipcMain.on('pp-win-logout', (event,data)=> {
-        console.log('logout')
+    ipcMain.on('pp-win-logout', (event, data) => {
         dbMysql.logout(tokenAuth.getAuth())
         tokenAuth.setAuth('')
     })

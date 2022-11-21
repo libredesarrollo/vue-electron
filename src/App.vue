@@ -16,8 +16,8 @@
           </li> -->
         </ul>
       </div>
-      
-      <ul class="navbar-nav me-auto my-2" v-if="$route.name == 'list'" >
+
+      <ul class="navbar-nav me-auto my-2" v-if="$route.name == 'list'">
         <!-- <li class="nav-item">
           <a href="#" class="nav-link">Test</a>
         </li> -->
@@ -43,27 +43,44 @@
     Hello {{ auth.user.name }}
     <button @click="logout">Close session</button>
   </p> -->
-  
   <div class="container">
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+const axios = require("axios");
+
 export default {
   name: "App",
   mounted() {
-    const { ipcRenderer } = window.require("electron");
-    ipcRenderer.send("pp-get-token-user");
+    console.log("process.env.VUE_APP_DEBUG");
+    console.log(process.env.VUE_APP_DEBUG);
 
-    // ipcRenderer.on('pr-get-token',(event, token) =>{
-    //   console.log(token)
-    // })
+    if (window.require) {
+      // modulo de electron
+      const { ipcRenderer } = window.require("electron");
 
-    ipcRenderer.on("pr-get-token-user", (event, tokenUser) => {
-      console.log(tokenUser);
-      this.auth = tokenUser;
-    });
+      // ipcRenderer.on('pr-get-token',(event, token) =>{
+      //   console.log(token)
+      // })
+      ipcRenderer.send("pp-get-token-user");
+      ipcRenderer.on("pr-get-token-user", (event, tokenUser) => {
+        console.log(tokenUser);
+        this.auth = tokenUser;
+      });
+    } else {
+      // app web navegador
+      //this.$cookies.set("token","4564899")
+      //console.log(this.$cookies.get('token'))
+      // let token = "4564899";
+      axios
+        .post("http://localhost:3000/user/token/" + this.$cookies.get("token"))
+        .then((res) => {
+          this.$cookies.set("auth", res.data);
+          this.auth = res.data;
+        });
+    }
   },
   data() {
     return {
@@ -75,21 +92,39 @@ export default {
   },
   methods: {
     register() {
-      console.log("Register");
-
-      const { ipcRenderer } = window.require("electron");
-
-      ipcRenderer.send("pp-win-register");
+      if (window.require) {
+        const { ipcRenderer } = window.require("electron");
+        ipcRenderer.send("pp-win-register");
+      } else {
+        this.$router.push({ name: "user-register" });
+      }
     },
     login() {
-      const { ipcRenderer } = window.require("electron");
-      ipcRenderer.send("pp-win-login");
+      if (window.require) {
+        const { ipcRenderer } = window.require("electron");
+        ipcRenderer.send("pp-win-login");
+      } else {
+        this.$router.push({ name: "user-login" });
+      }
     },
     logout() {
-      const { ipcRenderer } = window.require("electron");
-      ipcRenderer.send("pp-win-logout");
-
-      setTimeout(() => location.reload());
+      if (window.require) {
+        // electron
+        const { ipcRenderer } = window.require("electron");
+        ipcRenderer.send("pp-win-logout");
+        setTimeout(() => location.reload());
+      } else {
+        // vue app
+        axios
+          .post(
+            "http://localhost:3000/user/logout/" + this.$cookies.get("token")
+          )
+          .then(() => {
+            this.$cookies.set("auth", "");
+            this.$cookies.set("token", "");
+            location.reload();
+          });
+      }
     },
   },
 };

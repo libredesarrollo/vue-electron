@@ -23,7 +23,7 @@ module.exports.winRegister = function (primaryWinId) {
             }
         )
 
-        win.loadURL('http://localhost:8080/user/register')
+        win.loadURL('http://localhost:8080/#/user/register')
 
         win.openDevTools()
 
@@ -53,7 +53,7 @@ module.exports.winLogin = function (primaryWinId) {
             }
         )
 
-        win.loadURL('http://localhost:8080/user/login')
+        win.loadURL('http://localhost:8080/#/user/login')
 
         win.openDevTools()
 

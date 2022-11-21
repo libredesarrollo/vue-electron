@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory, createWebHistory } from "vue-router";
 
 import ListComponent from "./pages/ListComponent"
 import ContactComponent from "./pages/ContactComponent"
@@ -29,7 +29,7 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: window.require ? createWebHashHistory() : createWebHistory(),
     routes:routes
 })
 

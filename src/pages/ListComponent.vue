@@ -6,7 +6,7 @@
       <li v-for="(item, index) in items" :key="index" class="list-group-item">
         <span class="me-2">{{ item.name }} - {{ item.id }}</span>
         <button class="btn btn-danger btn-sm me-2" @click="remove(item.id)">
-          Remove
+          Remove 
         </button>
         <button class="btn btn-primary btn-sm" @click="edit(index)">
           Edit

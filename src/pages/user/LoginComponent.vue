@@ -48,12 +48,20 @@ export default {
       axios.post("http://localhost:3000/user/login", this.user).then((res) => {
         if (res.data.login) {
           this.$root.auth = res.data;
+          
+          if (window.require) {
+            // electron
+            const { ipcRenderer } = window.require("electron");
+            ipcRenderer.send("pp-close-win-login");
+          }else{
+            // vue app
+            this.$cookies.set("auth", res.data.user);
+            this.$cookies.set("token", res.data.token);
+          }
 
           alert("User login success");
-          //this.$router.push({ name: 'list' })
-
-          const { ipcRenderer } = window.require("electron");
-          ipcRenderer.send("pp-close-win-login");
+          
+          this.$router.push({ name: 'list' })
         } else alert("Login Fail");
       });
     },
