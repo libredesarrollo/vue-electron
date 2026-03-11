@@ -49,13 +49,13 @@
 </template>
 
 <script>
-const axios = require("axios");
+import axios from "axios";
 
 export default {
   name: "App",
   mounted() {
-    console.log("process.env.VUE_APP_DEBUG");
-    console.log(process.env.VUE_APP_DEBUG);
+    console.log("import.meta.env.VITE_APP_DEBUG");
+    console.log(import.meta.env.VITE_APP_DEBUG);
 
     if (window.require) {
       // modulo de electron

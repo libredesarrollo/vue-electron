@@ -1,11 +1,14 @@
-const mysql = require('mysql')
+const mysql = require('mysql2')
 
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
     // 'host':'localhost',
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'root',
-    'database': 'taskelectron'
+    'password': '',
+    'database': 'taskelectron',
+    'waitForConnections': true,
+    'connectionLimit': 10,
+    'queueLimit': 0
 })
 
 //******* TASK */
@@ -135,7 +138,7 @@ module.exports.logout = function (token) {
         connection.query('DELETE FROM user_tokens WHERE token = ?', token, (err) => {
             if (err) {
                 throw err
-            } 
+            }
         })
     }
 }

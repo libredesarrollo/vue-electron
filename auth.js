@@ -14,8 +14,8 @@ module.exports.winRegister = function (primaryWinId) {
             {
                 width: 1300,
                 height: 600,
-                parent:primaryWin,
-                modal:true,
+                parent: primaryWin,
+                modal: true,
                 webPreferences: {
                     nodeIntegration: true,
                     contextIsolation: false
@@ -23,7 +23,7 @@ module.exports.winRegister = function (primaryWinId) {
             }
         )
 
-        win.loadURL('http://localhost:8080/#/user/register')
+        win.loadURL('http://localhost:5173/user/register')
 
         win.openDevTools()
 
@@ -45,7 +45,7 @@ module.exports.winLogin = function (primaryWinId) {
                 width: 1300,
                 height: 600,
                 parent: primaryWin,
-                modal:true,
+                modal: true,
                 webPreferences: {
                     nodeIntegration: true,
                     contextIsolation: false
@@ -53,7 +53,7 @@ module.exports.winLogin = function (primaryWinId) {
             }
         )
 
-        win.loadURL('http://localhost:8080/#/user/login')
+        win.loadURL('http://localhost:5173/#/user/login')
 
         win.openDevTools()
 

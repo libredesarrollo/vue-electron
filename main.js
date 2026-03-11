@@ -29,7 +29,7 @@ function createWindow() {
     // win.webContents.loadURL('https://www.google.com/')
     if (process.env.DEBUG) {
         // win.webContents.loadURL(`file://${__dirname}/vue/index.html`)
-        win.webContents.loadURL('http://localhost:8080/')
+        win.webContents.loadURL('http://localhost:5173/')
         //win.webContents.loadURL(`file://${__dirname}/vue2/index.html`)
         //console.log(`file://${__dirname}/vue/index.html`)
     } else {

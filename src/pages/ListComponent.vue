@@ -28,7 +28,7 @@
 </template>
 <script>
 //const { ipcRenderer } = window.require("electron");
-const axios = require("axios");
+import axios from "axios";
 // const { ipcRenderer } = require('electron')
 export default {
   created() {

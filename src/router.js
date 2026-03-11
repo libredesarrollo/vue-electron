@@ -1,9 +1,9 @@
 import { createRouter, createWebHashHistory, createWebHistory } from "vue-router";
 
-import ListComponent from "./pages/ListComponent"
-import ContactComponent from "./pages/ContactComponent"
-import RegisterComponent from "./pages/user/RegisterComponent"
-import LoginComponent from "./pages/user/LoginComponent"
+import ListComponent from "./pages/ListComponent.vue"
+import ContactComponent from "./pages/ContactComponent.vue"
+import RegisterComponent from "./pages/user/RegisterComponent.vue"
+import LoginComponent from "./pages/user/LoginComponent.vue"
 
 const routes = [
     {

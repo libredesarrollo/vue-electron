@@ -1,40 +1,108 @@
-# Vue + Electron
+# Vue 3 + Electron + Vite + MySQL
 
-Aplicación de escritorio creada con **Electron** y **Vue.js**, construida como ejemplo práctico dentro del curso\libro "Electron.js: Crea tus aplicaciones de escritorio" de **Desarrollo Libre**.:
-
-https://www.desarrollolibre.net/blog/electronjs/curso-electronjs
-
-https://www.desarrollolibre.net/libros/primeros-pasos-electron-js
+Este proyecto es una aplicación de escritorio moderna que combina la potencia de **Electron** con la agilidad de **Vue 3** y **Vite**, utilizando una base de datos **MySQL** para la gestión de datos.
 
 ---
 
-##  Descripción
+## 🚀 Tecnologías Utilizadas
 
-Esta plantilla sirve como base para una app multiplataforma (Windows, macOS, Linux), usando **Electron** como contenedor de escritorio y **Vue.js** como frontend dinámico. Ideal para aprender a empaquetar interfaces web en aplicaciones nativas de escritorio.  
-Electron combina Chromium y Node.js para ejecutar tu app como un programa independiente :contentReference[oaicite:0]{index=0}.
-
----
-
-##  Temario relacionado
-
-Basado en el contenido del curso, esta app permite explorar los siguientes temas:  
-1. Integrar Vue.js en un proyecto optimizado para escritorio.  
-2. Configurar y enlazar los procesos *main* (Electron) y *renderer* (Vue).  
-3. Generar builds de producción para distintos sistemas operativos usando `electron-builder` :contentReference[oaicite:1]{index=1}.  
-4. (Opcional) Uso de herramientas como Bootstrap para estilo, carga de DevTools para desarrollo o ventanas modales nativas :contentReference[oaicite:2]{index=2}.
+- **Frontend**: [Vue 3](https://vuejs.org/) + [Vite](https://vitejs.dev/)
+- **Backend (API)**: [Express](https://expressjs.com/)
+- **Desktop**: [Electron](https://www.electronjs.org/)
+- **Base de Datos**: [MySQL](https://www.mysql.com/)
+- **Estilos**: [Bootstrap 5](https://getbootstrap.com/)
 
 ---
 
-##  Cómo usar este repositorio
+## 🛠️ Requisitos Previos
 
-### Requisitos
+1.  **Node.js**: Asegúrate de tener instalada una versión LTS.
+2.  **MySQL**: Debes tener un servidor MySQL corriendo.
+3.  **Base de Datos**: Importa el archivo `electron_vue.sql` en tu servidor MySQL para crear las tablas necesarias (`tasks`, `users`, `user_tokens`).
 
-- Node.js y npm instalados.
-- Conocimientos básicos de Vue.js y Electron.
+---
 
-### Instalación
+## 📦 Instalación
 
+1.  Clona el repositorio:
+    ```bash
+    git clone [url-del-repositorio]
+    cd vue-electron
+    ```
+2.  Instala las dependencias:
+    ```bash
+    npm install
+    ```
+3.  Configura la base de datos en `rest/db-mysql.js`:
+    ```javascript
+    const connection = mysql.createPool({
+        'host': '127.0.0.1',
+        'user': 'tu_usuario',
+        'password': 'tu_password',
+        'database': 'taskelectron'
+    });
+    ```
+
+---
+
+## 🏃‍♂️ Ejecución en Desarrollo
+
+Para ejecutar el proyecto en modo desarrollo, necesitas iniciar el servidor de frontend (Vite) y luego lanzar Electron.
+
+### Paso 1: Iniciar Vite (Frontend)
+En una terminal:
 ```bash
-git clone https://github.com/libredesarrollo/vue-electron.git
-cd vue-electron
-npm install
+npm run dev
+```
+
+### Paso 2: Iniciar Electron
+En otra terminal:
+```bash
+npm start
+```
+
+### Paso 3: Express
+En otra Terminal
+```
+node rest/app.js
+```
+
+*Nota: El servidor API de Express se inicia automáticamente como parte del proceso de Electron en este proyecto.*
+
+---
+
+## 🏗️ Estructura del Proyecto
+
+- `main.js`: Proceso principal de Electron.
+- `auth.js`: Gestión de ventanas de autenticación (Login/Registro).
+- `src/`: Código fuente de la interfaz Vue 3.
+  - `pages/`: Componentes de página (Lista de tareas, Login, etc.).
+  - `router.js`: Configuración de rutas de Vue Router.
+- `rest/`:
+  - `app.js`: Servidor API con Express.
+  - `db-mysql.js`: Conexión y consultas a MySQL.
+- `index.html`: Punto de entrada para Vite.
+- `vite.config.js`: Configuración de compilación y alias.
+
+---
+
+## 📝 Notas de Implementación
+
+- **Seguridad**: Se utiliza un sistema de tokens almacenados en la base de datos para la sesión del usuario.
+- **Conexión Robusta**: El sistema utiliza `mysql2` con un **Pool de conexiones** para evitar cierres inesperados por inactividad.
+- **Router**: Utiliza `HashHistory` dentro de Electron para mayor compatibilidad con el sistema de archivos nativo.
+
+---
+
+## 📦 Construcción (Build)
+
+Para empaquetar la aplicación para producción:
+
+1.  Compila el frontend:
+    ```bash
+    npm run build
+    ```
+2.  Empaqueta con Electron Builder:
+    ```bash
+    npm run pro:macos  # O el comando correspondiente a tu SO
+    ```
